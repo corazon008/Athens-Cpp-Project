@@ -1,4 +1,0 @@
-/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug/CMakeFiles/Project.dir
-/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug/CMakeFiles/Test.dir
-/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
