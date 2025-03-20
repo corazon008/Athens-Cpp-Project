@@ -1,0 +1,4 @@
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" -S "/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project" -B "/mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug"
+-- Configuring done (0.3s)
+-- Generating done (1.3s)
+-- Build files have been written to: /mnt/c/Users/corentin/OneDrive - Groupe ESAIP/1 Cours/S6 - Athenes/POO/Project/cmake-build-debug

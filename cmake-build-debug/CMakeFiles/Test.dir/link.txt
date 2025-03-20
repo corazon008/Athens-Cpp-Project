@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -Wl,--dependency-file=CMakeFiles/Test.dir/link.d CMakeFiles/Test.dir/test/main.cpp.o CMakeFiles/Test.dir/src/Card.cpp.o CMakeFiles/Test.dir/src/CardDisplay.cpp.o CMakeFiles/Test.dir/src/Cards/Distance.cpp.o CMakeFiles/Test.dir/src/Cards/Hazards.cpp.o CMakeFiles/Test.dir/src/Cards/Remedies.cpp.o CMakeFiles/Test.dir/src/Cards/Safeties.cpp.o -o Test
