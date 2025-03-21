@@ -13,14 +13,14 @@ enum class CardType {
 };
 
 class Card {
-private:
-  static const CardType m_type;
-  const std::vector<std::string_view> displayValue;
+protected:
+  CardType m_type;
+  std::vector<std::string> displayValue;
 
 public:
 
   // Return the value of the n-th line in order to print a whole deck easily
-  std::string_view getLine(int n) const;
+  std::string getLine(int n) const;
 };
 
 

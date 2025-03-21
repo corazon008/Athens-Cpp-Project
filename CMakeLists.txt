@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD 23)
 set(SOURCES
         src/Card.cpp
         src/CardDisplay.cpp
-        src/Cards/Distance.cpp
-        src/Cards/Hazards.cpp
-        src/Cards/Remedies.cpp
-        src/Cards/Safeties.cpp
+        src/CardType/Distance.cpp
+        src/CardType/Hazards.cpp
+        src/CardType/Remedies.cpp
+        src/CardType/Safeties.cpp
 )
 
 set(TESTS
