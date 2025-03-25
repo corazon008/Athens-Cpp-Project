@@ -9,10 +9,3 @@ std::string Card::getLine(size_t n) const {
 
     return displayValue[n];
 }
-
-CardType Card::getType() const {
-    return m_type;
-}
-
-
-

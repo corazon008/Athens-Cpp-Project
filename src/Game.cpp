@@ -11,15 +11,15 @@
 Game::Game(int nbPlayers) {
     //Generate Distance Cards
     for (int i = 0; i < 10; i++) {
-        m_drawPile.push_back(Distance(25));
-        m_drawPile.push_back(Distance(50));
-        m_drawPile.push_back(Distance(75));
+        m_drawPile.push_back(std::make_shared<Distance>(Distance(25)));
+        m_drawPile.push_back(std::make_shared<Distance>(Distance(50)));
+        m_drawPile.push_back(std::make_shared<Distance>(Distance(75)));
     }
     for (int i = 0; i < 12; i++) {
-        m_drawPile.push_back(Distance(100));
+        m_drawPile.push_back(std::make_shared<Distance>(Distance(100)));
     }
     for (int i = 0; i < 4; i++) {
-        m_drawPile.push_back(Distance(200));
+        m_drawPile.push_back(std::make_shared<Distance>(Distance(200)));
     }
 
     //Generate Hazards Cards
@@ -31,7 +31,7 @@ Game::Game(int nbPlayers) {
 
     int nbCardsPerPlayer = 6;
     for (int i = 0; i < nbPlayers; i++) {
-        m_players.push_back(Player());
+        m_players.push_back(Player(i));
         for (int j = 0; j < nbCardsPerPlayer; j++) {
             m_players[i].DrawCard(m_drawPile.back());
             m_drawPile.pop_back();
@@ -51,12 +51,14 @@ void Game::board(std::ostream &os) const {
     }
 
     for (size_t j=0; j < 5; j++) {
-        for (size_t i = 0; i < GetIntLength(m_players[0].GetScore()); i++) {
-            auto current_digit = GetNthDigit(m_players[0].GetScore(), i);
+        for (size_t i = 0; i < GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
+            auto current_digit = GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
             os << DigitToStringListRow(current_digit, j);
         }
         os << std::endl;
     }
+
+
 
 
 }

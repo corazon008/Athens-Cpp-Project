@@ -4,4 +4,7 @@
 class Remedies : public Card {
 public:
 
+    CardType getType() const override {
+        return CardType::REMEDIES;
+    }
 };

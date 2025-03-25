@@ -9,7 +9,17 @@ private:
 
 public:
     Distance(int distance): m_distance(distance) {
-        m_type = CardType::DISTANCE;
         displayValue = CardDisplay::constructCardDisplay(distance);
     };
+
+    ~Distance() override = default;
+
+
+    int GetDistance() const {
+        return m_distance;
+    }
+
+    CardType getType() const override {
+        return CardType::DISTANCE;
+    }
 };
