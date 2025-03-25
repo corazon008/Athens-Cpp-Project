@@ -1,10 +1,12 @@
 #include <cassert>
 #include <iostream>
-#include "../src/CardDisplay.h"
+#include <vector>
+
+#include "../src/Cards/CardDisplay.h"
 
 void displayCard(std::vector<std::string> toDisplay) {
-    for (int i = 0; i < toDisplay.size(); i++) {
-        std::cout << toDisplay[i] << std::endl;
+    for (const auto & i : toDisplay) {
+        std::cout << i << std::endl;
     }
 }
 
@@ -20,7 +22,7 @@ public:
             "│       │",
             "└───────┘"
         };
-        displayCard(CardDisplay::constructCardDisplay(1));
+        //displayCard(CardDisplay::constructCardDisplay(1));
         assert(CardDisplay::constructCardDisplay(1) == expected);
 
         expected = {
@@ -30,7 +32,7 @@ public:
             "│       │",
             "└───────┘"
         };
-        displayCard(CardDisplay::constructCardDisplay(5));
+        //displayCard(CardDisplay::constructCardDisplay(5));
         assert(CardDisplay::constructCardDisplay(5) == expected);
 
         expected = {

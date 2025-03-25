@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Card.h"
 #include "../CardDisplay.h"
 

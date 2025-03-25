@@ -2,7 +2,8 @@
 #include <string>
 #include <format>
 #include <vector>
-#include <math.h>
+#include <cmath>
+#include <sstream>
 
 const std::string CardDisplay::top = "┌───────┐";
 const std::string CardDisplay::empty = "│       │";
@@ -18,26 +19,26 @@ std::vector<std::string> CardDisplay::constructCardDisplay(int distance) {
 
     std::string leftSide = "│" + std::string(nbSpaces, ' ');
     std::string rightSide = std::string(nbSpaces, ' ') + "│";
-    std::string new_line;
+    std::ostringstream oss;
 
     switch (charLength2Insert) {
         case 1: {
-            new_line = leftSide + std::to_string(distance) + rightSide;
+            oss << leftSide << distance << rightSide;
             break;
         }
         case 2: {
             std::string number = std::to_string(distance);
             number.insert(1, " ");
-            new_line = leftSide + number + rightSide;
+            oss << leftSide << number << rightSide;
             break;
         }
         case 3: {
-            new_line = leftSide + std::to_string(distance) + rightSide;
+            oss  << leftSide << distance << rightSide;
             break;
         }
     }
 
-    display.push_back(new_line);
+    display.push_back(oss.str());
     display.push_back(empty);
     display.push_back(bottom);
     return display;

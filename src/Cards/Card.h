@@ -20,7 +20,9 @@ protected:
 public:
 
   // Return the value of the n-th line in order to print a whole deck easily
-  std::string getLine(int n) const;
+  std::string getLine(size_t n) const;
+
+  CardType getType() const;
 };
 
 
