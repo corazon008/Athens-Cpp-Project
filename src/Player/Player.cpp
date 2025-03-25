@@ -16,12 +16,12 @@ bool Player::PlaySafetyCard(Safeties safety) {
   return false;
 }
 
-bool Player::PlayHazardCard(Hazards hazard, Player& opponent) {
+bool Player::PlayHazardCard(Hazards hazard, Player &opponent) {
   //TODO
   return false;
 }
 
-bool Player::PlayRemedyCard(Remedies remedies, Player& opponent) {
+bool Player::PlayRemedyCard(Remedies remedies, Player &opponent) {
   //TODO
   return false;
 }
@@ -31,7 +31,7 @@ bool Player::DrawCard(const std::shared_ptr<Card> card) {
   return true;
 }
 
-bool Player::PlayCard(int cardIndex, Player& opponent) {
+bool Player::PlayCard(const size_t cardIndex, Player &opponent) {
   std::shared_ptr<Card> playedCard = m_deck.GetCard(cardIndex);
 
   if (!playedCard) return false; // Vérifier que la carte existe
@@ -62,10 +62,11 @@ bool Player::PlayCard(int cardIndex, Player& opponent) {
   return false; // Si aucune carte valide n'a été jouée
 }
 
-
-
 bool Player::ReceiveHazard(Hazards hazard) {
   //TODO
   return false;
 }
 
+void Player::DisplayCards(std::ostream &os, size_t row) const {
+  m_deck.DisplayCards(os, row);
+}

@@ -8,22 +8,25 @@ private:
   const size_t scoreGoal = 100;
   std::vector<Player> m_players;
   size_t m_currentPlayer = 0;
-  std::vector<std::shared_ptr<Card>> m_drawPile;
+  std::vector<std::shared_ptr<Card> > m_drawPile;
 
   void shuffleDeck();
 
-  void boardRightPanel(std::ostream &os) const;
+  void boardRightPanel(std::ostream &os, size_t row) const;
+
+  void Clear(std::ostream &os) const;
 
 public:
-  const std::array<int, 2> DisplayFrame = {8, 20};
+  const std::array<unsigned int, 2> DisplayFrame = {56, 180};
 
   Game(int nbPlayers);
 
   bool HaveAWinner() const;
 
-  void nextPlayer();
+  bool PlayCard(const size_t cardIndex, const size_t opponentIndex);
 
-  void board(std::ostream &os) const;
+  void NextPlayer();
 
+  void Board(std::ostream &os) const;
 };
 

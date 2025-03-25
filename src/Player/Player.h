@@ -19,21 +19,23 @@ private:
 
     bool PlaySafetyCard(Safeties safety);
 
-    bool PlayHazardCard(Hazards hazard, Player& opponent);
+    bool PlayHazardCard(Hazards hazard, Player &opponent);
 
-    bool PlayRemedyCard(Remedies remedies, Player& opponent);
+    bool PlayRemedyCard(Remedies remedies, Player &opponent);
 
 public:
-    Player(const unsigned int id): m_score(0), m_id(id), m_hazards(), m_safeties() {};
+    Player(const unsigned int id): m_score(0), m_id(id), m_hazards(), m_safeties() {
+    };
 
     size_t GetScore() const;
 
     bool DrawCard(const std::shared_ptr<Card> card);
 
-    bool PlayCard(int cardIndex, Player& opponent);
+    void DisplayCards(std::ostream &os, size_t row) const;
+
+    bool PlayCard(const size_t cardIndex, Player &opponent);
 
     bool ReceiveHazard(Hazards hazard);
-
 };
 
 

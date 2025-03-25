@@ -45,26 +45,8 @@ void Game::shuffleDeck() {
     std::shuffle(m_drawPile.begin(), m_drawPile.end(), g);
 }
 
-void Game::board(std::ostream &os) const {
-    for (const auto & player : m_players) {
-        os << "Player " << player.GetScore() << std::endl;
-    }
-
-    for (size_t j=0; j < 5; j++) {
-        for (size_t i = 0; i < GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
-            auto current_digit = GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
-            os << DigitToStringListRow(current_digit, j);
-        }
-        os << std::endl;
-    }
-
-
-
-
-}
-
 bool Game::HaveAWinner() const {
-    for (const auto & player : m_players) {
+    for (const auto &player: m_players) {
         if (player.GetScore() >= scoreGoal) {
             return true;
         }
@@ -72,8 +54,52 @@ bool Game::HaveAWinner() const {
     return false;
 }
 
-void Game::nextPlayer() {
+void Game::NextPlayer() {
     m_currentPlayer = (m_currentPlayer + 1) % m_players.size();
 }
 
+bool Game::PlayCard(const size_t cardIndex, const size_t opponentIndex) {
+    if (m_currentPlayer >= m_players.size() || opponentIndex >= m_players.size()) return false;
+
+    return m_players[m_currentPlayer].PlayCard(cardIndex, m_players[opponentIndex]);
+}
+
+void Game::Clear(std::ostream &os) const {
+    os.flush();
+    //os << "\033[2J\033[H"; // Efface et replace le curseur en haut
+    os << "\033[H\033[J";
+    os.flush();
+}
+
+void Game::Board(std::ostream &os) const {
+    Clear(os);
+    const size_t RightPanelWidth = DisplayFrame[1] / 2;
+    const size_t DeckRowBegin = 5;
+
+    for (size_t row = 0; row < 12; row++) {
+        for (size_t column = 0; column < RightPanelWidth; column++) {
+            os << " "; // populate the current line with spaces so that no calculation needed for the right panel
+        }
+        boardRightPanel(os, row);
+
+        if (row < 5) {
+            os << "\r";
+            for (size_t i = 0; i < GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
+                auto current_digit = GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
+                os << DigitToStringListRow(current_digit, row % 5);
+            }
+        } else if (DeckRowBegin < row && row < DeckRowBegin + 6) {
+            os << "\r";
+            m_players[m_currentPlayer].DisplayCards(os, row - (DeckRowBegin + 1));
+        }
+
+
+        os << std::endl;
+    }
+    os.flush();
+}
+
+void Game::boardRightPanel(std::ostream &os, size_t row) const {
+    os << "│";
+}
 

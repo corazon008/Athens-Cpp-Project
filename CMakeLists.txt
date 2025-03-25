@@ -31,3 +31,5 @@ set(TESTS
 add_executable(Project src/main.cpp ${SOURCES} ${Player} ${CARDS})
 
 add_executable(Test test/main.cpp ${SOURCES} ${Player} ${CARDS})
+
+add_executable(TestFile test/testFile.cpp)

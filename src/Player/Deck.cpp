@@ -6,5 +6,13 @@ bool Deck::AddCard(const std::shared_ptr<Card> card) {
 }
 
 std::shared_ptr<Card> Deck::GetCard(int cardIndex) {
-    return m_deck[cardIndex];
+    std::shared_ptr<Card> card = m_deck[cardIndex];
+    m_deck.erase(m_deck.begin() + cardIndex);
+    return card;
+}
+
+void Deck::DisplayCards(std::ostream &os, size_t row) const {
+    for (const auto &card: m_deck) {
+        os << card->getLine(row);
+    }
 }
