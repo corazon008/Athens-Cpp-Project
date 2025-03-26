@@ -86,7 +86,7 @@ namespace Number {
 }
 
 namespace Utils {
-    std::string colorText(const std::string &text, Color color = Color::RESET) {
+    std::string colorText(const std::string text, Color color = Color::RESET) {
         return "\033[" + std::to_string(static_cast<int>(color)) + "m" + text + "\033[0m";
     }
 

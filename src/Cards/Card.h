@@ -14,13 +14,21 @@ enum class CardType {
 
 class Card {
 protected:
-  std::vector<std::string> displayValue;
+  std::vector<std::string> displayValue = {
+    "┌───────┐",
+    "│       │",
+    "│       │",
+    "│       │",
+    "└───────┘"
+  };
 
 public:
+  static std::vector<std::string> EmptyCard;
+
   virtual ~Card() = default;
 
   // Return the value of the n-th line in order to print a whole deck easily
-  std::string getLine(size_t n) const;
+  virtual std::string getLine(size_t n) const;
 
   virtual CardType getType() const = 0;
 };

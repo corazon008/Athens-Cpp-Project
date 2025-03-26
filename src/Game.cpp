@@ -8,7 +8,13 @@
 #include "Cards/CardType/Distance.h"
 #include "Utils/Utils.h"
 
-Game::Game(int nbPlayers) {
+bool Game::SetPlayersCount(size_t nbPlayers) {
+    if (nbPlayers < 2 || nbPlayers > MaxPlayers) return false;
+    m_nbPlayers = nbPlayers;
+    return true;
+}
+
+bool Game::GenerateCards() {
     //Generate Distance Cards
     for (int i = 0; i < 10; i++) {
         m_drawPile.push_back(std::make_shared<Distance>(Distance(25)));
@@ -23,20 +29,47 @@ Game::Game(int nbPlayers) {
     }
 
     //Generate Hazards Cards
+    for (int i = 0; i < 3; i++) {
+        m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::ACCIDENT)));
+        m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::OUT_OF_GAS)));
+        m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::FLAT_TIRE)));
+    }
+    for (int i = 0; i < 4; i++) {
+        m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::STOP)));
+        m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::SPEED_LIMIT)));
+    }
+    m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::STOP))); // 5 STOP cards
     //Generate Remedies Cards
+    for (int i = 0; i < 6; i++) {
+        m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::REPAIRS)));
+        m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::GASOLINE)));
+        m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::SPARE_TIRE)));
+    }
+    for (int i = 0; i < 14; i++) {
+        m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::GO)));
+    }
+    for (int i = 0; i < 6; i++) {
+        m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::END_LIMIT)));
+    }
+
     //Generate Safeties Cards
+    m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::DRIVING_ACE)));
+    m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::EXTRA_TANK)));
+    m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::PUNCTURE_PROOF)));
+    m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::RIGHT_OF_WAY)));
 
     //Shuffle the deck
     shuffleDeck();
 
     int nbCardsPerPlayer = 6;
-    for (int i = 0; i < nbPlayers; i++) {
+    for (size_t i = 0; i < m_nbPlayers; i++) {
         m_players.push_back(Player(i));
         for (int j = 0; j < nbCardsPerPlayer; j++) {
             m_players[i].DrawCard(m_drawPile.back());
             m_drawPile.pop_back();
         }
     }
+    return true;
 }
 
 void Game::shuffleDeck() {
@@ -61,6 +94,7 @@ void Game::NextPlayer() {
 bool Game::PlayCard(const size_t cardIndex, const size_t opponentIndex) {
     if (m_currentPlayer >= m_players.size() || opponentIndex >= m_players.size()) return false;
 
+    DrawCard();
     return m_players[m_currentPlayer].PlayCard(cardIndex, m_players[opponentIndex]);
 }
 
@@ -96,7 +130,7 @@ void Game::Board(std::ostream &os) const {
             }
         } else if (DeckRowBegin < row && row < DeckRowBegin + 11) {
             os << "\r";
-            m_players[m_currentPlayer].DisplayCards(os, row - (DeckRowBegin + 1));
+            m_players[m_currentPlayer].DisplayDeck(os, row - (DeckRowBegin + 1));
         }
 
 
@@ -105,7 +139,36 @@ void Game::Board(std::ostream &os) const {
     os.flush();
 }
 
+void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const {
+    if (row == 0)
+        os << player.GetScore();
+    if (0 < row && row <= 5)
+        player.DisplayHazardsNSafeties(os, row - 1);
+}
+
+
 void Game::boardRightPanel(std::ostream &os, size_t row) const {
-    os << "│";
+    os << "│     ";
+    size_t HeightNeededToDisplayPlayer = 7; // Included
+    // List of players without the current player
+    std::vector<size_t> playerToDisplay;
+    for (size_t i = 0; i < m_nbPlayers; i++) {
+        if (i == m_currentPlayer)
+            continue;
+        playerToDisplay.push_back(i);
+    }
+
+    size_t PlayerRow = 1;
+    for (const auto &playerId: playerToDisplay) {
+        Player player = m_players[playerId];
+        if (HeightNeededToDisplayPlayer * (PlayerRow - 1) <= row && row < HeightNeededToDisplayPlayer * PlayerRow) {
+            boardRightPanelPlayer(os, player, row - HeightNeededToDisplayPlayer * (PlayerRow - 1));
+        }
+        if (row == (HeightNeededToDisplayPlayer-1) * PlayerRow && PlayerRow < (m_nbPlayers -1)) {
+            for (int k = 0; k < 55; k++)
+                os << "─";
+        }
+        PlayerRow++;
+    }
 }
 

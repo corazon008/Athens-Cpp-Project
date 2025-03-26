@@ -1,6 +1,5 @@
 #pragma once
 
-#include <queue>
 #include "Player/Player.h"
 
 class Game {
@@ -8,6 +7,8 @@ private:
   const size_t scoreGoal = 100;
   std::vector<Player> m_players;
   size_t m_currentPlayer = 0;
+  size_t m_nbPlayers = 0;
+  size_t MaxPlayers = 4;
   std::vector<std::shared_ptr<Card>> m_drawPile;
 
   void shuffleDeck();
@@ -18,10 +19,16 @@ private:
 
   void DrawCard();
 
-public:
-  const std::array<unsigned int, 2> DisplayFrame = {56, 180};
+  void boardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const;
 
-  Game(int nbPlayers);
+public:
+  const std::array<unsigned int, 2> DisplayFrame = {56, 140};
+
+  Game(){};
+
+  bool SetPlayersCount(size_t nbPlayers);
+
+  bool GenerateCards();
 
   bool HaveAWinner() const;
 

@@ -31,7 +31,9 @@ public:
 
     bool DrawCard(const std::shared_ptr<Card> card);
 
-    void DisplayCards(std::ostream &os, size_t row) const;
+    void DisplayDeck(std::ostream &os, size_t row) const;
+
+    void DisplayHazardsNSafeties(std::ostream &os, size_t row) const;
 
     bool PlayCard(const size_t cardIndex, Player &opponent);
 

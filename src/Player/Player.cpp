@@ -68,13 +68,17 @@ bool Player::ReceiveHazard(Hazards hazard) {
   return false;
 }
 
-void Player::DisplayCards(std::ostream &os, const size_t row) const {
+void Player::DisplayDeck(std::ostream &os, const size_t row) const {
   if (row < 5) {
-    for (const auto &card: m_hazards)
-      os << Utils::colorText(card.getLine(row), Utils::Color::RED);
-    for (const auto &card: m_safeties)
-      os << Utils::colorText(card.getLine(row), Utils::Color::GREEN);
+    DisplayHazardsNSafeties(os, row);
   } else {
     m_deck.DisplayCards(os, row - 5);
   }
+}
+
+void Player::DisplayHazardsNSafeties(std::ostream &os, const size_t row) const {
+  for (const auto &card: m_hazards)
+    os << Utils::colorText(card.getLine(row), Utils::Color::RED);
+  for (const auto &card: m_safeties)
+    os << Utils::colorText(card.getLine(row), Utils::Color::BLUE);
 }

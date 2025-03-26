@@ -12,7 +12,7 @@ private:
     static const std::string bottom;
     static const int maxCharLength = 7;
 public:
-    static std::vector<std::string> constructCardDisplay(int distance);
+    static std::vector<std::string> constructCardDisplay(const int distance);
 
-    static std::vector<std::string_view> constructCardDisplay(std::string logo);
+    static std::vector<std::string> constructCardDisplay(const std::string logo, const std::string letter);
 };

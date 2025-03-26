@@ -9,7 +9,7 @@ const std::string CardDisplay::top = "┌───────┐";
 const std::string CardDisplay::empty = "│       │";
 const std::string CardDisplay::bottom = "└───────┘";
 
-std::vector<std::string> CardDisplay::constructCardDisplay(int distance) {
+std::vector<std::string> CardDisplay::constructCardDisplay(const int distance) {
     std::vector<std::string> display;
     display.push_back(top);
     display.push_back(empty);
@@ -40,6 +40,26 @@ std::vector<std::string> CardDisplay::constructCardDisplay(int distance) {
 
     display.push_back(oss.str());
     display.push_back(empty);
+    display.push_back(bottom);
+    return display;
+}
+
+std::vector<std::string> CardDisplay::constructCardDisplay(const std::string logo, const std::string letter) {
+    std::vector<std::string> display;
+    display.push_back(top);
+
+    std::ostringstream oss;
+
+    oss << "│   " << logo << "  │";
+
+    display.push_back(oss.str());
+    display.push_back(empty);
+
+    std::ostringstream oss2;
+    int nbSpaces = floor((maxCharLength - letter.length()) / 2.0f);
+    oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
+    display.push_back(oss2.str());
+
     display.push_back(bottom);
     return display;
 }

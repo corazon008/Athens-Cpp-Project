@@ -28,7 +28,7 @@ set(TESTS
         test/CardDisplayTest.cpp
 )
 
-add_executable(Project src/main.cpp ${SOURCES} ${Player} ${CARDS})
+add_executable(MilleBornes src/main.cpp ${SOURCES} ${Player} ${CARDS})
 
 add_executable(Test test/main.cpp ${SOURCES} ${Player} ${CARDS})
 
