@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include "../Cards/CardType/Distance.h"
+#include "../Utils/Utils.h"
 
 size_t Player::GetScore() const {
   return m_score;
@@ -38,23 +39,23 @@ bool Player::PlayCard(const size_t cardIndex, Player &opponent) {
 
   switch (playedCard->getType()) {
     case CardType::DISTANCE: {
-      auto distCard = std::dynamic_pointer_cast<Distance>(playedCard);
-      if (distCard) return PlayDistanceCard(*distCard);
+      if (const auto distCard = std::dynamic_pointer_cast<Distance>(playedCard))
+        return PlayDistanceCard(*distCard);
       break;
     }
     case CardType::HAZARDS: {
-      auto hazardCard = std::dynamic_pointer_cast<Hazards>(playedCard);
-      if (hazardCard) return PlayHazardCard(*hazardCard, opponent);
+      if (const auto hazardCard = std::dynamic_pointer_cast<Hazards>(playedCard))
+        return PlayHazardCard(*hazardCard, opponent);
       break;
     }
     case CardType::REMEDIES: {
-      auto remedyCard = std::dynamic_pointer_cast<Remedies>(playedCard);
-      if (remedyCard) return PlayRemedyCard(*remedyCard, opponent);
+      if (const auto remedyCard = std::dynamic_pointer_cast<Remedies>(playedCard))
+        return PlayRemedyCard(*remedyCard, opponent);
       break;
     }
     case CardType::SAFETIES: {
-      auto safetyCard = std::dynamic_pointer_cast<Safeties>(playedCard);
-      if (safetyCard) return PlaySafetyCard(*safetyCard);
+      if (const auto safetyCard = std::dynamic_pointer_cast<Safeties>(playedCard))
+        return PlaySafetyCard(*safetyCard);
       break;
     }
   }
@@ -67,6 +68,13 @@ bool Player::ReceiveHazard(Hazards hazard) {
   return false;
 }
 
-void Player::DisplayCards(std::ostream &os, size_t row) const {
-  m_deck.DisplayCards(os, row);
+void Player::DisplayCards(std::ostream &os, const size_t row) const {
+  if (row < 5) {
+    for (const auto &card: m_hazards)
+      os << Utils::colorText(card.getLine(row), Utils::Color::RED);
+    for (const auto &card: m_safeties)
+      os << Utils::colorText(card.getLine(row), Utils::Color::GREEN);
+  } else {
+    m_deck.DisplayCards(os, row - 5);
+  }
 }

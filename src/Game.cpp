@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Cards/CardType/Distance.h"
-#include "const.h"
+#include "Utils/Utils.h"
 
 Game::Game(int nbPlayers) {
     //Generate Distance Cards
@@ -64,6 +64,12 @@ bool Game::PlayCard(const size_t cardIndex, const size_t opponentIndex) {
     return m_players[m_currentPlayer].PlayCard(cardIndex, m_players[opponentIndex]);
 }
 
+void Game::DrawCard() {
+    if (m_drawPile.empty()) return;
+    m_players[m_currentPlayer].DrawCard(m_drawPile.back());
+    m_drawPile.pop_back();
+}
+
 void Game::Clear(std::ostream &os) const {
     os.flush();
     //os << "\033[2J\033[H"; // Efface et replace le curseur en haut
@@ -76,7 +82,7 @@ void Game::Board(std::ostream &os) const {
     const size_t RightPanelWidth = DisplayFrame[1] / 2;
     const size_t DeckRowBegin = 5;
 
-    for (size_t row = 0; row < 12; row++) {
+    for (size_t row = 0; row < 16; row++) {
         for (size_t column = 0; column < RightPanelWidth; column++) {
             os << " "; // populate the current line with spaces so that no calculation needed for the right panel
         }
@@ -84,11 +90,11 @@ void Game::Board(std::ostream &os) const {
 
         if (row < 5) {
             os << "\r";
-            for (size_t i = 0; i < GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
-                auto current_digit = GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
-                os << DigitToStringListRow(current_digit, row % 5);
+            for (size_t i = 0; i < Utils::GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
+                auto current_digit = Utils::GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
+                os << Utils::DigitToStringListRow(current_digit, row % 5);
             }
-        } else if (DeckRowBegin < row && row < DeckRowBegin + 6) {
+        } else if (DeckRowBegin < row && row < DeckRowBegin + 11) {
             os << "\r";
             m_players[m_currentPlayer].DisplayCards(os, row - (DeckRowBegin + 1));
         }

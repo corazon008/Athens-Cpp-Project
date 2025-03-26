@@ -8,7 +8,7 @@ add_compile_options(-Wall -pedantic -Wno-long-long -O0)
 # Définition des fichiers sources communs
 set(SOURCES
         src/Game.cpp
-        src/const.cpp
+        src/Utils/Utils.cpp
 )
 
 set(Player
