@@ -64,9 +64,9 @@ bool Game::GenerateCards() {
 
     int nbCardsPerPlayer = 6;
     for (size_t i = 0; i < m_nbPlayers; i++) {
-        m_players.push_back(Player(i));
+        m_players.push_back(std::make_shared<Player>(i));
         for (int j = 0; j < nbCardsPerPlayer; j++) {
-            m_players[i].DrawCard(m_drawPile.back());
+            m_players[i]->DrawCard(m_drawPile.back());
             m_drawPile.pop_back();
         }
     }
@@ -81,7 +81,7 @@ void Game::shuffleDeck() {
 
 bool Game::HaveAWinner() const {
     for (const auto &player: m_players) {
-        if (player.GetScore() >= scoreGoal) {
+        if (player->GetScore() >= scoreGoal) {
             return true;
         }
     }
@@ -98,7 +98,7 @@ bool Game::PlayCard() {
         return false;
     if (m_currentPlayer >= m_players.size())
         return false;
-    if (m_players[m_currentPlayer].PlayCard(cardIndex, this)) {
+    if (m_players[m_currentPlayer]->PlayCard(cardIndex, this)) {
         DrawCard();
         return true;
     }
@@ -110,7 +110,7 @@ size_t Game::AskCardToPlay() const {
     return Utils::AskInt("Which card do you want to play? [1-6]: ") - 1;
 }
 
-bool Game::AskOpponent(Player &opponent) const{
+bool Game::AskOpponent(std::shared_ptr<Player>& opponent) const{
     size_t opponentIndex = Utils::AskInt(std::format("Which opponent do you want to target? [1-{}]: ", m_nbPlayers)) -
                            1;
     if (opponentIndex >= m_nbPlayers || opponentIndex == m_currentPlayer) {
@@ -123,7 +123,7 @@ bool Game::AskOpponent(Player &opponent) const{
 
 void Game::DrawCard() {
     if (m_drawPile.empty()) return;
-    m_players[m_currentPlayer].DrawCard(m_drawPile.back());
+    m_players[m_currentPlayer]->DrawCard(m_drawPile.back());
     m_drawPile.pop_back();
 }
 
@@ -147,19 +147,19 @@ void Game::Board(std::ostream &os) const {
 
         if (row == 0) {
             os << "\r";
-            os << Utils::colorText("Player " + std::to_string(m_players[m_currentPlayer].GetId() + 1),
+            os << Utils::colorText("Player " + std::to_string(m_players[m_currentPlayer]->GetId() + 1),
                                    Utils::Color::YELLOW);
         }
 
         if (0 < row && row <= 5) {
             os << "\r";
-            for (size_t i = 0; i < Utils::GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
-                auto current_digit = Utils::GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
+            for (size_t i = 0; i < Utils::GetIntLength(m_players[m_currentPlayer]->GetScore()); i++) {
+                auto current_digit = Utils::GetNthDigit(m_players[m_currentPlayer]->GetScore(), i);
                 os << Utils::DigitToStringListRow(current_digit, (row - 1) % 5);
             }
         } else if (DeckRowBegin < row && row < DeckRowBegin + 11) {
             os << "\r";
-            m_players[m_currentPlayer].DisplayDeck(os, row - (DeckRowBegin + 1));
+            m_players[m_currentPlayer]->DisplayDeck(os, row - (DeckRowBegin + 1));
         }
 
         os << std::endl;
@@ -190,7 +190,7 @@ void Game::boardRightPanel(std::ostream &os, size_t row) const {
 
     size_t PlayerRow = 1;
     for (const auto &playerId: playerToDisplay) {
-        Player player = m_players[playerId];
+        Player player = *m_players[playerId];
         if (HeightNeededToDisplayPlayer * (PlayerRow - 1) <= row && row < HeightNeededToDisplayPlayer * PlayerRow) {
             boardRightPanelPlayer(os, player, row - HeightNeededToDisplayPlayer * (PlayerRow - 1));
         }

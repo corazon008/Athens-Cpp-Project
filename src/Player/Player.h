@@ -23,14 +23,14 @@ private:
 
     bool PlaySafetyCard(Safeties safety);
 
-    bool PlayHazardCard(Hazards hazard, Player &opponent);
+    bool PlayHazardCard(Hazards hazard, std::shared_ptr<Player>& opponent);
 
     bool PlayRemedyCard(Remedies remedies);
 
 public:
-    Player(const unsigned int id): m_score(0), m_id(id), m_hazards(), m_safeties() {
-    };
+    Player(){};
 
+    Player(const unsigned int id): m_score(0), m_id(id), m_hazards(), m_safeties() {};
 
     size_t GetScore() const;
 

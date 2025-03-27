@@ -36,8 +36,8 @@ bool Player::PlaySafetyCard(Safeties safety) {
   return false;
 }
 
-bool Player::PlayHazardCard(Hazards hazard, Player &opponent) {
-  return opponent.ReceiveHazard(hazard);
+bool Player::PlayHazardCard(Hazards hazard, std::shared_ptr<Player>& opponent) {
+  return opponent->ReceiveHazard(hazard);
 }
 
 bool Player::ReceiveHazard(Hazards hazard) {
@@ -80,7 +80,7 @@ bool Player::PlayCard(const size_t cardIndex, Game *game) {
     }
     case CardType::HAZARDS: {
       if (const auto hazardCard = std::dynamic_pointer_cast<Hazards>(playedCard)) {
-        Player opponent(0);
+        std::shared_ptr<Player> opponent;
         if (!game->AskOpponent(opponent))
           return false;
         if (PlayHazardCard(*hazardCard, opponent))

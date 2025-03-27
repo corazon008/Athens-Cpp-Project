@@ -7,7 +7,7 @@ class Player;
 class Game {
 private:
   const size_t scoreGoal = 300;
-  std::vector<Player> m_players;
+  std::vector<std::shared_ptr<Player>> m_players;
   size_t m_currentPlayer = 0;
   size_t m_nbPlayers = 0;
   size_t MaxPlayers = 4;
@@ -41,7 +41,7 @@ public:
 
   bool PlayCard();
 
-  bool AskOpponent(Player& opponent) const ;
+  bool AskOpponent(std::shared_ptr<Player>& opponent) const ;
 
   void NextPlayer();
 
