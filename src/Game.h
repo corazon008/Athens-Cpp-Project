@@ -2,14 +2,16 @@
 
 #include "Player/Player.h"
 
+class Player;
+
 class Game {
 private:
-  const size_t scoreGoal = 100;
+  const size_t scoreGoal = 300;
   std::vector<Player> m_players;
   size_t m_currentPlayer = 0;
   size_t m_nbPlayers = 0;
   size_t MaxPlayers = 4;
-  std::vector<std::shared_ptr<Card>> m_drawPile;
+  std::vector<std::shared_ptr<Card> > m_drawPile;
 
   void shuffleDeck();
 
@@ -21,10 +23,15 @@ private:
 
   void boardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const;
 
+  size_t AskCardToPlay() const;
+
+
+
 public:
   const std::array<unsigned int, 2> DisplayFrame = {56, 140};
 
-  Game(){};
+  Game() {
+  };
 
   bool SetPlayersCount(size_t nbPlayers);
 
@@ -32,7 +39,9 @@ public:
 
   bool HaveAWinner() const;
 
-  bool PlayCard(const size_t cardIndex, const size_t opponentIndex);
+  bool PlayCard();
+
+  bool AskOpponent(Player& opponent) const ;
 
   void NextPlayer();
 

@@ -7,8 +7,15 @@ bool Deck::AddCard(const std::shared_ptr<Card>& card) {
 
 std::shared_ptr<Card> Deck::GetCard(const size_t cardIndex) {
     std::shared_ptr<Card> card = m_deck[cardIndex];
-    m_deck.erase(m_deck.begin() + cardIndex);
     return card;
+}
+
+bool Deck::RemoveCard(const size_t cardIndex) {
+    if (cardIndex >= m_deck.size()) {
+        return false;
+    }
+    m_deck.erase(m_deck.begin() + cardIndex);
+    return true;
 }
 
 void Deck::DisplayCards(std::ostream &os, const size_t row) const {

@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <algorithm>
+#include <iostream>
 #include <ostream>
 #include <random>
 #include <vector>
@@ -91,11 +92,33 @@ void Game::NextPlayer() {
     m_currentPlayer = (m_currentPlayer + 1) % m_players.size();
 }
 
-bool Game::PlayCard(const size_t cardIndex, const size_t opponentIndex) {
-    if (m_currentPlayer >= m_players.size() || opponentIndex >= m_players.size()) return false;
+bool Game::PlayCard() {
+    size_t cardIndex = AskCardToPlay();
+    if (cardIndex > 6)
+        return false;
+    if (m_currentPlayer >= m_players.size())
+        return false;
+    if (m_players[m_currentPlayer].PlayCard(cardIndex, this)) {
+        DrawCard();
+        return true;
+    }
+    return false;
+}
 
-    DrawCard();
-    return m_players[m_currentPlayer].PlayCard(cardIndex, m_players[opponentIndex]);
+
+size_t Game::AskCardToPlay() const {
+    return Utils::AskInt("Which card do you want to play? [1-6]: ") - 1;
+}
+
+bool Game::AskOpponent(Player &opponent) const{
+    size_t opponentIndex = Utils::AskInt(std::format("Which opponent do you want to target? [1-{}]: ", m_nbPlayers)) -
+                           1;
+    if (opponentIndex >= m_nbPlayers || opponentIndex == m_currentPlayer) {
+        std::cout << "Invalid opponent" << std::endl;
+        return false;
+    }
+    opponent = m_players[opponentIndex];
+    return true;
 }
 
 void Game::DrawCard() {
@@ -114,25 +137,30 @@ void Game::Clear(std::ostream &os) const {
 void Game::Board(std::ostream &os) const {
     Clear(os);
     const size_t RightPanelWidth = DisplayFrame[1] / 2;
-    const size_t DeckRowBegin = 5;
+    const size_t DeckRowBegin = 6;
 
-    for (size_t row = 0; row < 16; row++) {
+    for (size_t row = 0; row < 17; row++) {
         for (size_t column = 0; column < RightPanelWidth; column++) {
             os << " "; // populate the current line with spaces so that no calculation needed for the right panel
         }
         boardRightPanel(os, row);
 
-        if (row < 5) {
+        if (row == 0) {
+            os << "\r";
+            os << Utils::colorText("Player " + std::to_string(m_players[m_currentPlayer].GetId() + 1),
+                                   Utils::Color::YELLOW);
+        }
+
+        if (0 < row && row <= 5) {
             os << "\r";
             for (size_t i = 0; i < Utils::GetIntLength(m_players[m_currentPlayer].GetScore()); i++) {
                 auto current_digit = Utils::GetNthDigit(m_players[m_currentPlayer].GetScore(), i);
-                os << Utils::DigitToStringListRow(current_digit, row % 5);
+                os << Utils::DigitToStringListRow(current_digit, (row - 1) % 5);
             }
         } else if (DeckRowBegin < row && row < DeckRowBegin + 11) {
             os << "\r";
             m_players[m_currentPlayer].DisplayDeck(os, row - (DeckRowBegin + 1));
         }
-
 
         os << std::endl;
     }
@@ -141,15 +169,17 @@ void Game::Board(std::ostream &os) const {
 
 void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const {
     if (row == 0)
+        os << Utils::colorText("Player " + std::to_string(player.GetId() + 1), Utils::Color::YELLOW);
+    if (row == 1)
         os << player.GetScore();
-    if (0 < row && row <= 5)
-        player.DisplayHazardsNSafeties(os, row - 1);
+    if (1 < row && row <= 6)
+        player.DisplayHazardsNSafeties(os, row - 2);
 }
 
 
 void Game::boardRightPanel(std::ostream &os, size_t row) const {
     os << "│     ";
-    size_t HeightNeededToDisplayPlayer = 7; // Included
+    size_t HeightNeededToDisplayPlayer = 8; // Included
     // List of players without the current player
     std::vector<size_t> playerToDisplay;
     for (size_t i = 0; i < m_nbPlayers; i++) {
@@ -164,7 +194,7 @@ void Game::boardRightPanel(std::ostream &os, size_t row) const {
         if (HeightNeededToDisplayPlayer * (PlayerRow - 1) <= row && row < HeightNeededToDisplayPlayer * PlayerRow) {
             boardRightPanelPlayer(os, player, row - HeightNeededToDisplayPlayer * (PlayerRow - 1));
         }
-        if (row == (HeightNeededToDisplayPlayer-1) * PlayerRow && PlayerRow < (m_nbPlayers -1)) {
+        if (row == (HeightNeededToDisplayPlayer - 1) * PlayerRow && PlayerRow < (m_nbPlayers - 1)) {
             for (int k = 0; k < 55; k++)
                 os << "─";
         }

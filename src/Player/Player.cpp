@@ -7,23 +7,58 @@ size_t Player::GetScore() const {
   return m_score;
 }
 
+size_t Player::GetId() const {
+  return m_id;
+}
+
 bool Player::PlayDistanceCard(Distance card) {
+  for (const auto &hazard: m_hazards) {
+    if (hazard.getHazardsType() == HazardsType::SPEED_LIMIT && card.GetDistance() > 50)
+      return false;
+    if (hazard.getHazardsType() != HazardsType::None)
+      return false;
+  }
   m_score += card.GetDistance();
   return true;
 }
 
 bool Player::PlaySafetyCard(Safeties safety) {
-  //TODO
+  for (size_t i = 0; i < m_hazards.size(); i++)
+    if (safety.CanCounterHazards(m_hazards[i]))
+      m_hazards[i] = Hazards();
+
+  for (size_t i = 0; i < m_safeties.size(); i++) {
+    if (m_safeties[i].getSafetiesType() == SafetiesType::None) {
+      m_safeties[i] = safety;
+      return true;
+    }
+  }
   return false;
 }
 
 bool Player::PlayHazardCard(Hazards hazard, Player &opponent) {
+  return opponent.ReceiveHazard(hazard);
+}
+
+bool Player::ReceiveHazard(Hazards hazard) {
   //TODO
+  for (auto &f_hazard: m_hazards) {
+    if (f_hazard.getHazardsType() != HazardsType::None)
+      continue;
+    f_hazard = hazard;
+    return true;
+  }
   return false;
 }
 
-bool Player::PlayRemedyCard(Remedies remedies, Player &opponent) {
+bool Player::PlayRemedyCard(Remedies remedies) {
   //TODO
+  for (auto &hazard: m_hazards) {
+    if (remedies.canCounterHazards(hazard)) {
+      hazard = Hazards();
+      return true;
+    }
+  }
   return false;
 }
 
@@ -32,7 +67,7 @@ bool Player::DrawCard(const std::shared_ptr<Card> card) {
   return true;
 }
 
-bool Player::PlayCard(const size_t cardIndex, Player &opponent) {
+bool Player::PlayCard(const size_t cardIndex, Game *game) {
   std::shared_ptr<Card> playedCard = m_deck.GetCard(cardIndex);
 
   if (!playedCard) return false; // Vérifier que la carte existe
@@ -40,33 +75,33 @@ bool Player::PlayCard(const size_t cardIndex, Player &opponent) {
   switch (playedCard->getType()) {
     case CardType::DISTANCE: {
       if (const auto distCard = std::dynamic_pointer_cast<Distance>(playedCard))
-        return PlayDistanceCard(*distCard);
-      break;
+        if (PlayDistanceCard(*distCard))
+          return m_deck.RemoveCard(cardIndex);
     }
     case CardType::HAZARDS: {
-      if (const auto hazardCard = std::dynamic_pointer_cast<Hazards>(playedCard))
-        return PlayHazardCard(*hazardCard, opponent);
-      break;
+      if (const auto hazardCard = std::dynamic_pointer_cast<Hazards>(playedCard)) {
+        Player opponent(0);
+        if (!game->AskOpponent(opponent))
+          return false;
+        if (PlayHazardCard(*hazardCard, opponent))
+          return m_deck.RemoveCard(cardIndex);
+      }
     }
     case CardType::REMEDIES: {
       if (const auto remedyCard = std::dynamic_pointer_cast<Remedies>(playedCard))
-        return PlayRemedyCard(*remedyCard, opponent);
-      break;
+        if (PlayRemedyCard(*remedyCard))
+          return m_deck.RemoveCard(cardIndex);
     }
     case CardType::SAFETIES: {
       if (const auto safetyCard = std::dynamic_pointer_cast<Safeties>(playedCard))
-        return PlaySafetyCard(*safetyCard);
-      break;
+        if (PlaySafetyCard(*safetyCard))
+          return m_deck.RemoveCard(cardIndex);
     }
   }
 
   return false; // Si aucune carte valide n'a été jouée
 }
 
-bool Player::ReceiveHazard(Hazards hazard) {
-  //TODO
-  return false;
-}
 
 void Player::DisplayDeck(std::ostream &os, const size_t row) const {
   if (row < 5) {

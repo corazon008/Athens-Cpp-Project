@@ -5,6 +5,7 @@
 #include "../Card.h"
 
 enum class HazardsType {
+    None,
     ACCIDENT,
     OUT_OF_GAS,
     FLAT_TIRE, // 🚒🚦🔴
@@ -33,7 +34,9 @@ private:
     HazardsType m_hazardsType;
 public:
 
-    Hazards(){};
+    Hazards() {
+        m_hazardsType = HazardsType::None;
+    };
 
     Hazards(HazardsType hazardsType): m_hazardsType(hazardsType) {
         displayValue = CardDisplay::constructCardDisplay(hazardSymbols[hazardsType], hazardSymbolsLetter[hazardsType]);
@@ -41,6 +44,10 @@ public:
 
     CardType getType() const override {
         return CardType::HAZARDS;
+    }
+
+    HazardsType getHazardsType() const {
+        return m_hazardsType;
     }
 
     std::string getLine(size_t n) const override;

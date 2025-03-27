@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <stdexcept>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 namespace Number {
@@ -92,7 +93,7 @@ namespace Utils {
 
     std::vector<std::string> DigitToStringList(const unsigned int d) {
         if (d > 9)
-            throw std::invalid_argument("score out of range");
+            throw std::invalid_argument("digit out of range");
         switch (d) {
             case 0:
                 return Number::ZERO;
@@ -115,6 +116,7 @@ namespace Utils {
             case 9:
                 return Number::NINE;
         }
+        throw std::invalid_argument("digit out of range");
     };
 
     std::string DigitToStringListRow(const unsigned int d, const size_t row) {
@@ -152,4 +154,22 @@ namespace Utils {
         }
         return result;
     };
+
+    int AskInt(const std::string &message) {
+        int nombre;
+
+        while (true) {
+            std::cout << message;
+            std::cin >> nombre;
+
+            if (std::cin.fail()) {
+                std::cin.clear(); // Réinitialise l'état d'erreur
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Vide le buffer d'entrée
+                std::cout << "Error. Please enter an integer !\n";
+            } else {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Nettoie l'entrée
+                return nombre;
+            }
+        }
+    }
 }

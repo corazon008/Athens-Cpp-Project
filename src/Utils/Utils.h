@@ -20,4 +20,6 @@ namespace Utils {
     unsigned int GetNthDigit(const unsigned int n, const unsigned int digit);
 
     std::vector<std::string> NumberToStringList(const unsigned int n);
+
+    int AskInt(const std::string& message);
 }

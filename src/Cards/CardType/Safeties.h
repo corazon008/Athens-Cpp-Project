@@ -2,8 +2,10 @@
 #include <unordered_map>
 
 #include "../Card.h"
+#include "Hazards.h"
 
 enum class SafetiesType {
+    None,
     DRIVING_ACE,
     EXTRA_TANK,
     PUNCTURE_PROOF,
@@ -29,7 +31,9 @@ class Safeties : public Card {
 private:
     SafetiesType m_SafetiesType;
 public:
-    Safeties(){};
+    Safeties() {
+        m_SafetiesType = SafetiesType::None;
+    };
 
     Safeties(SafetiesType safetiesType): m_SafetiesType(safetiesType) {
         displayValue = CardDisplay::constructCardDisplay(safetySymbols[m_SafetiesType], safetySymbolsLetter[m_SafetiesType]);
@@ -39,6 +43,12 @@ public:
         return CardType::SAFETIES;
     }
 
+    SafetiesType getSafetiesType() const {
+        return m_SafetiesType;
+    }
+
     std::string getLine(size_t n) const override;
+
+    bool CanCounterHazards(Hazards hazard) const;
 
 };

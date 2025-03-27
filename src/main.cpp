@@ -19,8 +19,11 @@ int main() {
     std::ostream &os = std::cout;
     for (int i = 0; i <= 5; i++) {
         game.Board(os);
-        game.PlayCard(0, 0);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        while (!game.PlayCard()) {
+            std::cout << "Invalid card" << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        game.NextPlayer();
     }
 
     return 0;

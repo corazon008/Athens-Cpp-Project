@@ -44,7 +44,7 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const int distance) {
     return display;
 }
 
-std::vector<std::string> CardDisplay::constructCardDisplay(const std::string logo, const std::string letter) {
+std::vector<std::string> CardDisplay::constructCardDisplay(const std::string logo, std::string letter) {
     std::vector<std::string> display;
     display.push_back(top);
 
@@ -57,8 +57,20 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const std::string log
 
     std::ostringstream oss2;
     int nbSpaces = floor((maxCharLength - letter.length()) / 2.0f);
-    oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
-    display.push_back(oss2.str());
+    switch (nbSpaces % 2) {
+        case 0: {
+            size_t middle = letter.length() / 2;
+            letter.insert(middle, " ");
+            oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
+            display.push_back(oss2.str());
+            break;
+        }
+        case 1: {
+            oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
+            display.push_back(oss2.str());
+            break;
+        }
+    }
 
     display.push_back(bottom);
     return display;

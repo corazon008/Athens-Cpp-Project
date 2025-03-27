@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include "../Card.h"
+#include "Hazards.h"
 
 enum class RemediesType {
     REPAIRS,
@@ -41,6 +42,12 @@ public:
         return CardType::REMEDIES;
     }
 
+    RemediesType getRemediesType() const {
+        return m_remediesType;
+    }
+
     std::string getLine(size_t n) const override;
+
+    bool canCounterHazards(Hazards hazard) const;
 
 };

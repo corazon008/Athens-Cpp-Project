@@ -13,5 +13,7 @@ public:
 
     std::shared_ptr<Card> GetCard(size_t cardIndex);
 
+    bool RemoveCard(size_t cardIndex);
+
     void DisplayCards(std::ostream &os, size_t row) const;
 };
