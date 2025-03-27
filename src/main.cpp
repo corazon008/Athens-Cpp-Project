@@ -17,7 +17,7 @@ int main() {
     game.GenerateCards();
 
     std::ostream &os = std::cout;
-    for (int i = 0; i <= 5; i++) {
+    while (!game.HaveAWinner()) {
         game.Board(os);
         while (!game.PlayCard()) {
             std::cout << "Invalid card" << std::endl;

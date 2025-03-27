@@ -11,11 +11,11 @@ size_t Player::GetId() const {
   return m_id;
 }
 
-bool Player::PlayDistanceCard(Distance card) {
+bool Player::PlayDistanceCard(Distance& card) {
   for (const auto &hazard: m_hazards) {
     if (hazard.getHazardsType() == HazardsType::SPEED_LIMIT && card.GetDistance() > 50)
       return false;
-    if (hazard.getHazardsType() != HazardsType::None)
+    else if (hazard.getHazardsType() != HazardsType::None &&hazard.getHazardsType() != HazardsType::SPEED_LIMIT ) // All other hazards block the card
       return false;
   }
   m_score += card.GetDistance();

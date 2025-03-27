@@ -19,7 +19,7 @@ private:
     std::array<Hazards, 2> m_hazards;
     std::array<Safeties, 4> m_safeties;
 
-    bool PlayDistanceCard(Distance distance);
+    bool PlayDistanceCard(Distance& distance);
 
     bool PlaySafetyCard(Safeties safety);
 
