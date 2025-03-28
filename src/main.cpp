@@ -18,7 +18,7 @@ int main() {
 
     std::ostream &os = std::cout;
     while (!game.HaveAWinner()) {
-        game.Board(os);
+        game.DisplayBoard(os);
         while (!game.PlayCard()) {
             std::cout << "Invalid card" << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(1));

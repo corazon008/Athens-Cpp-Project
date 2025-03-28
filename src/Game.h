@@ -45,6 +45,6 @@ public:
 
   void NextPlayer();
 
-  void Board(std::ostream &os) const;
+  void DisplayBoard(std::ostream &os) const;
 };
 

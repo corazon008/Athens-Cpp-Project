@@ -38,13 +38,15 @@ public:
 
     bool DrawCard(const std::shared_ptr<Card> card);
 
+    std::shared_ptr<Card> DropCard(const size_t cardIndex);
+
     void DisplayDeck(std::ostream &os, size_t row) const;
 
     void DisplayHazardsNSafeties(std::ostream &os, size_t row) const;
 
     bool PlayCard(const size_t cardIndex, Player &opponent);
 
-    bool PlayCard(const size_t cardIndex, Game* game);
+    bool PlayCard(const size_t cardIndex, const Game* game);
 
     bool ReceiveHazard(Hazards hazard);
 

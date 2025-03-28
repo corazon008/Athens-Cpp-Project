@@ -134,7 +134,7 @@ void Game::Clear(std::ostream &os) const {
     os.flush();
 }
 
-void Game::Board(std::ostream &os) const {
+void Game::DisplayBoard(std::ostream &os) const {
     Clear(os);
     const size_t RightPanelWidth = DisplayFrame[1] / 2;
     const size_t DeckRowBegin = 6;
@@ -175,7 +175,6 @@ void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t 
     if (1 < row && row <= 6)
         player.DisplayHazardsNSafeties(os, row - 2);
 }
-
 
 void Game::boardRightPanel(std::ostream &os, size_t row) const {
     os << "│     ";
