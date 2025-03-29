@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "../Card.h"
+#include "../CardDisplay.h"
 
 enum class HazardsType {
     None,
@@ -11,7 +12,7 @@ enum class HazardsType {
     FLAT_TIRE, // 🚒🚦🔴
     STOP,
     SPEED_LIMIT
-  };
+};
 
 inline std::unordered_map<HazardsType, std::string> hazardSymbols = {
     {HazardsType::ACCIDENT, "⚠️"},
@@ -22,18 +23,18 @@ inline std::unordered_map<HazardsType, std::string> hazardSymbols = {
 };
 
 inline std::unordered_map<HazardsType, std::string> hazardSymbolsLetter = {
-    {HazardsType::ACCIDENT, "[!]" },
-    {HazardsType::OUT_OF_GAS, "[GAS]" },
-    {HazardsType::FLAT_TIRE, "[TIRE]" },
-    {HazardsType::STOP, "[STOP]" },
-    {HazardsType::SPEED_LIMIT, "[SLOW]" }
+    {HazardsType::ACCIDENT, "[!]"},
+    {HazardsType::OUT_OF_GAS, "[GAS]"},
+    {HazardsType::FLAT_TIRE, "[TIRE]"},
+    {HazardsType::STOP, "[STOP]"},
+    {HazardsType::SPEED_LIMIT, "[SLOW]"}
 };
 
 class Hazards : public Card {
 private:
     HazardsType m_hazardsType;
-public:
 
+public:
     Hazards() {
         m_hazardsType = HazardsType::None;
     };
@@ -42,13 +43,13 @@ public:
         displayValue = CardDisplay::constructCardDisplay(hazardSymbols[hazardsType], hazardSymbolsLetter[hazardsType]);
     };
 
-    CardType getType() const override {
+    CardType GetType() const override {
         return CardType::HAZARDS;
     }
 
-    HazardsType getHazardsType() const {
+    HazardsType GetHazardsType() const {
         return m_hazardsType;
     }
 
-    std::string getLine(size_t n) const override;
+    std::string GetLine(size_t n) const override;
 };

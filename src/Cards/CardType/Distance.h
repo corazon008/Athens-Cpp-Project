@@ -14,12 +14,11 @@ public:
 
     ~Distance() override = default;
 
-
     int GetDistance() const {
         return m_distance;
     }
 
-    CardType getType() const override {
+    CardType GetType() const override {
         return CardType::DISTANCE;
     }
 };

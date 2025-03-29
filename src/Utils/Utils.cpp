@@ -89,7 +89,7 @@ namespace Number {
 }
 
 namespace Utils {
-    std::string colorText(const std::string text, Color color = Color::RESET) {
+    std::string colorText(const std::string& text, Color color = Color::RESET) {
         return "\033[" + std::to_string(static_cast<int>(color)) + "m" + text + "\033[0m";
     }
 
@@ -165,17 +165,17 @@ namespace Utils {
             std::cin >> nombre;
 
             if (std::cin.fail()) {
-                std::cin.clear(); // Réinitialise l'état d'erreur
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Vide le buffer d'entrée
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Error. Please enter an integer !\n";
             } else {
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Nettoie l'entrée
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 return nombre;
             }
         }
     }
 
-    bool AskYesNo(const std::string& question, bool defaultValue) {
+    bool AskYesNo(const std::string& question, const bool defaultValue) {
         std::string response;
 
         while (true) {

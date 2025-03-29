@@ -1,6 +1,5 @@
 #pragma once
 
-#include <format>
 #include <string>
 #include <vector>
 
@@ -14,5 +13,5 @@ private:
 public:
     static std::vector<std::string> constructCardDisplay(const int distance);
 
-    static std::vector<std::string> constructCardDisplay(const std::string logo, const std::string letter);
+    static std::vector<std::string> constructCardDisplay(const std::string &logo, const std::string letter);
 };

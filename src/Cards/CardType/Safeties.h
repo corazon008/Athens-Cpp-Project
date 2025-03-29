@@ -10,7 +10,7 @@ enum class SafetiesType {
     EXTRA_TANK,
     PUNCTURE_PROOF,
     RIGHT_OF_WAY,
-  };
+};
 
 inline std::unordered_map<SafetiesType, std::string> safetySymbols = {
     {SafetiesType::DRIVING_ACE, "🏆"},
@@ -30,25 +30,26 @@ inline std::unordered_map<SafetiesType, std::string> safetySymbolsLetter = {
 class Safeties : public Card {
 private:
     SafetiesType m_SafetiesType;
+
 public:
     Safeties() {
         m_SafetiesType = SafetiesType::None;
     };
 
     Safeties(SafetiesType safetiesType): m_SafetiesType(safetiesType) {
-        displayValue = CardDisplay::constructCardDisplay(safetySymbols[m_SafetiesType], safetySymbolsLetter[m_SafetiesType]);
+        displayValue = CardDisplay::constructCardDisplay(safetySymbols[m_SafetiesType],
+                                                         safetySymbolsLetter[m_SafetiesType]);
     }
 
-    CardType getType() const override {
+    CardType GetType() const override {
         return CardType::SAFETIES;
     }
 
-    SafetiesType getSafetiesType() const {
+    SafetiesType GetSafetiesType() const {
         return m_SafetiesType;
     }
 
-    std::string getLine(size_t n) const override;
+    std::string GetLine(size_t n) const override;
 
-    bool CanCounterHazards(Hazards hazard) const;
-
+    bool CanCounterHazards(const Hazards &hazard) const;
 };

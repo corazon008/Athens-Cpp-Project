@@ -5,6 +5,7 @@
 #include <ostream>
 #include <random>
 #include <vector>
+#include <format>
 
 #include "Cards/CardType/Distance.h"
 #include "Utils/Utils.h"
@@ -60,7 +61,7 @@ bool Game::GenerateCards() {
     m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::RIGHT_OF_WAY)));
 
     //Shuffle the deck
-    shuffleDeck();
+    ShuffleDeck();
 
     int nbCardsPerPlayer = 6;
     for (size_t i = 0; i < m_nbPlayers; i++) {
@@ -73,7 +74,7 @@ bool Game::GenerateCards() {
     return true;
 }
 
-void Game::shuffleDeck() {
+void Game::ShuffleDeck() {
     std::random_device rd;
     std::mt19937 g(rd());
     std::shuffle(m_drawPile.begin(), m_drawPile.end(), g);
@@ -82,6 +83,7 @@ void Game::shuffleDeck() {
 bool Game::HaveAWinner() const {
     for (const auto &player: m_players) {
         if (player->GetScore() >= scoreGoal) {
+            std::cout << "Winner is : Player " << player->GetId() << std::endl;
             return true;
         }
     }
@@ -139,7 +141,7 @@ void Game::DisplayBoard(std::ostream &os) const {
         for (size_t column = 0; column < RightPanelWidth; column++) {
             os << " "; // populate the current line with spaces so that no calculation needed for the right panel
         }
-        boardRightPanel(os, row);
+        BoardRightPanel(os, row);
 
         if (row == 0) {
             os << "\r";
@@ -163,7 +165,7 @@ void Game::DisplayBoard(std::ostream &os) const {
     os.flush();
 }
 
-void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const {
+void Game::BoardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const {
     if (row == 0)
         os << Utils::colorText("Player " + std::to_string(player.GetId() + 1), Utils::Color::YELLOW);
     if (row == 1)
@@ -172,7 +174,7 @@ void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t 
         player.DisplayHazardsAndSafeties(os, row - 2);
 }
 
-void Game::boardRightPanel(std::ostream &os, size_t row) const {
+void Game::BoardRightPanel(std::ostream &os, size_t row) const {
     os << "│     ";
     size_t HeightNeededToDisplayPlayer = 8; // Included
     // List of players without the current player
@@ -187,7 +189,7 @@ void Game::boardRightPanel(std::ostream &os, size_t row) const {
     for (const auto &playerId: playerToDisplay) {
         Player player = *m_players[playerId];
         if (HeightNeededToDisplayPlayer * (PlayerRow - 1) <= row && row < HeightNeededToDisplayPlayer * PlayerRow) {
-            boardRightPanelPlayer(os, player, row - HeightNeededToDisplayPlayer * (PlayerRow - 1));
+            BoardRightPanelPlayer(os, player, row - HeightNeededToDisplayPlayer * (PlayerRow - 1));
         }
         if (row == (HeightNeededToDisplayPlayer - 1) * PlayerRow && PlayerRow < (m_nbPlayers - 1)) {
             for (int k = 0; k < 55; k++)

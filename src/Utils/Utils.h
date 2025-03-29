@@ -9,7 +9,7 @@ namespace Utils {
         BLUE = 34, MAGENTA = 35, CYAN = 36, WHITE = 37
     };
 
-    std::string colorText(const std::string text, Color color);
+    std::string colorText(const std::string& text, Color color);
 
     std::vector<std::string> DigitToStringList(const unsigned int d);
 

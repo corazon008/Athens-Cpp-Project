@@ -11,7 +11,7 @@ private:
 public:
     bool AddCard(const std::shared_ptr<Card> &card);
 
-    std::shared_ptr<Card> GetCard(size_t cardIndex);
+    std::shared_ptr<Card> GetCard(size_t cardIndex) const;
 
     bool RemoveCard(size_t cardIndex);
 

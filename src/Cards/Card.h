@@ -1,9 +1,7 @@
 #pragma once
 
-#include <format>
 #include <string>
 #include <vector>
-#include "CardDisplay.h"
 
 enum class CardType {
   DISTANCE,
@@ -28,9 +26,9 @@ public:
   virtual ~Card() = default;
 
   // Return the value of the n-th line in order to print a whole deck easily
-  virtual std::string getLine(size_t n) const;
+  virtual std::string GetLine(size_t n) const;
 
-  virtual CardType getType() const = 0;
+  virtual CardType GetType() const = 0;
 };
 
 

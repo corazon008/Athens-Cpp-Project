@@ -10,7 +10,7 @@ enum class RemediesType {
     SPARE_TIRE,
     GO,
     END_LIMIT,
-  };
+};
 
 inline std::unordered_map<RemediesType, std::string> remedySymbols = {
     {RemediesType::REPAIRS, "🔧"},
@@ -31,23 +31,24 @@ inline std::unordered_map<RemediesType, std::string> remedySymbolsLetter = {
 class Remedies : public Card {
 private:
     RemediesType m_remediesType;
+
 public:
-    Remedies(){};
+    Remedies() = default;
 
     Remedies(RemediesType remediesType): m_remediesType(remediesType) {
-        displayValue = CardDisplay::constructCardDisplay(remedySymbols[m_remediesType], remedySymbolsLetter[m_remediesType]);
+        displayValue = CardDisplay::constructCardDisplay(remedySymbols[m_remediesType],
+                                                         remedySymbolsLetter[m_remediesType]);
     }
 
-    CardType getType() const override {
+    CardType GetType() const override {
         return CardType::REMEDIES;
     }
 
-    RemediesType getRemediesType() const {
+    RemediesType GetRemediesType() const {
         return m_remediesType;
     }
 
-    std::string getLine(size_t n) const override;
+    std::string GetLine(size_t n) const override;
 
-    bool canCounterHazards(Hazards hazard) const;
-
+    bool canCounterHazards(const Hazards &hazard) const;
 };

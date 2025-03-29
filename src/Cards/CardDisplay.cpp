@@ -1,4 +1,5 @@
 #include "CardDisplay.h"
+
 #include <string>
 #include <format>
 #include <vector>
@@ -44,7 +45,7 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const int distance) {
     return display;
 }
 
-std::vector<std::string> CardDisplay::constructCardDisplay(const std::string logo, std::string letter) {
+std::vector<std::string> CardDisplay::constructCardDisplay(const std::string &logo, std::string letter) {
     std::vector<std::string> display;
     display.push_back(top);
 

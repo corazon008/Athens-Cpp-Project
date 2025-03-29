@@ -1,11 +1,11 @@
 #include "Deck.h"
 
-bool Deck::AddCard(const std::shared_ptr<Card>& card) {
+bool Deck::AddCard(const std::shared_ptr<Card> &card) {
     m_deck.push_back(card);
     return true;
 }
 
-std::shared_ptr<Card> Deck::GetCard(const size_t cardIndex) {
+std::shared_ptr<Card> Deck::GetCard(const size_t cardIndex) const {
     std::shared_ptr<Card> card = m_deck[cardIndex];
     return card;
 }
@@ -20,6 +20,6 @@ bool Deck::RemoveCard(const size_t cardIndex) {
 
 void Deck::DisplayCards(std::ostream &os, const size_t row) const {
     for (const auto &card: m_deck) {
-        os << card->getLine(row);
+        os << card->GetLine(row);
     }
 }

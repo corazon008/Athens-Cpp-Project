@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <functional>
 
 #include "Deck.h"
 #include "../Game.h"
@@ -20,48 +19,39 @@ private:
     std::array<Safeties, 4> m_safeties;
     bool ShouldPlayGoCard = true;
 
-    bool PlayDistanceCard(Distance& distance);
+    bool PlayDistanceCard(Distance &distance);
 
-    bool PlaySafetyCard(Safeties safety);
+    bool PlaySafetyCard(const Safeties &safety);
 
-    bool PlayHazardCard(Hazards hazard, std::shared_ptr<Player>& opponent);
+    bool PlayHazardCard(const Hazards &hazard, const std::shared_ptr<Player> &opponent);
 
-    bool PlayRemedyCard(Remedies remedies);
+    bool PlayRemedyCard(const Remedies &remedies);
 
     bool HaveRightOfWay() const;
 
     bool DropCard(const size_t cardIndex);
 
-    bool PlayCard(const size_t cardIndex, const Game* game);
+    bool PlayCard(const size_t cardIndex, const Game *game);
 
 public:
-    Player(){};
+    Player() = default;
 
-    Player(const unsigned int id): m_score(0), m_id(id), m_hazards(), m_safeties() {};
+    Player(const size_t id): m_score(0), m_id(id), m_hazards(), m_safeties() {
+    };
 
     size_t GetScore() const;
 
     size_t GetId() const;
 
-    bool DrawCard(const std::shared_ptr<Card> card);
+    bool DrawCard(const std::shared_ptr<Card> &card);
 
     void DisplayDeck(std::ostream &os, size_t row) const;
 
     void DisplayHazardsAndSafeties(std::ostream &os, size_t row) const;
 
-    bool Play(const Game* game);
+    bool Play(const Game *game);
 
-    bool ReceiveHazard(Hazards hazard);
-
-    Player& operator=(const Player &other) {
-        if (this == &other) return *this;
-        m_score = other.m_score;
-        m_deck = other.m_deck;
-        m_id = other.m_id;
-        m_hazards = other.m_hazards;
-        m_safeties = other.m_safeties;
-        return *this;
-    }
+    bool ReceiveHazard(const Hazards &hazard);
 };
 
 
