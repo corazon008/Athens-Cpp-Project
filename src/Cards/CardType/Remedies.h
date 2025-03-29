@@ -34,7 +34,7 @@ private:
 public:
     Remedies(){};
 
-    Remedies(RemediesType remediesType) {
+    Remedies(RemediesType remediesType): m_remediesType(remediesType) {
         displayValue = CardDisplay::constructCardDisplay(remedySymbols[m_remediesType], remedySymbolsLetter[m_remediesType]);
     }
 

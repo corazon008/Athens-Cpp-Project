@@ -1,4 +1,6 @@
 #include "Utils.h"
+
+#include <algorithm>
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
@@ -170,6 +172,27 @@ namespace Utils {
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Nettoie l'entrée
                 return nombre;
             }
+        }
+    }
+
+    bool AskYesNo(const std::string& question, bool defaultValue) {
+        std::string response;
+
+        while (true) {
+            std::cout << question;
+            std::getline(std::cin, response);
+
+            // Convert to lowercase
+            std::transform(response.begin(), response.end(), response.begin(), tolower);
+
+            if (response == std::string(""))
+                return defaultValue;
+            if (response == "yes" || response == "y")
+                return true;
+            if (response == "no" || response == "n")
+                return false;
+
+            std::cout << "Invalid input. Please answer 'yes' or 'no'."  << std::endl;
         }
     }
 }

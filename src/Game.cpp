@@ -93,18 +93,14 @@ void Game::NextPlayer() {
 }
 
 bool Game::PlayCard() {
-    size_t cardIndex = AskCardToPlay();
-    if (cardIndex > 6)
-        return false;
     if (m_currentPlayer >= m_players.size())
         return false;
-    if (m_players[m_currentPlayer]->PlayCard(cardIndex, this)) {
+    if (m_players[m_currentPlayer]->Play(this)) {
         DrawCard();
         return true;
     }
     return false;
 }
-
 
 size_t Game::AskCardToPlay() const {
     return Utils::AskInt("Which card do you want to play? [1-6]: ") - 1;
@@ -173,7 +169,7 @@ void Game::boardRightPanelPlayer(std::ostream &os, const Player &player, size_t 
     if (row == 1)
         os << player.GetScore();
     if (1 < row && row <= 6)
-        player.DisplayHazardsNSafeties(os, row - 2);
+        player.DisplayHazardsAndSafeties(os, row - 2);
 }
 
 void Game::boardRightPanel(std::ostream &os, size_t row) const {

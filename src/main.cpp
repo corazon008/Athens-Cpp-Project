@@ -13,7 +13,7 @@ void displayCard(std::vector<std::string> toDisplay) {
 
 int main() {
     Game game = Game();
-    game.SetPlayersCount(3);
+    game.SetPlayersCount(2);
     game.GenerateCards();
 
     std::ostream &os = std::cout;

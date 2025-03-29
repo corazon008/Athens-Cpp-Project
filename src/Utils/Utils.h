@@ -22,4 +22,6 @@ namespace Utils {
     std::vector<std::string> NumberToStringList(const unsigned int n);
 
     int AskInt(const std::string& message);
+
+    bool AskYesNo(const std::string& question, bool defaultValue = false);
 }

@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <iostream>
+
 #include "../Cards/CardType/Distance.h"
 #include "../Utils/Utils.h"
 
@@ -11,11 +13,35 @@ size_t Player::GetId() const {
   return m_id;
 }
 
-bool Player::PlayDistanceCard(Distance& card) {
+bool Player::HaveRightOfWay() const {
+  for (const auto &safeties: m_safeties)
+    if (safeties.getSafetiesType() == SafetiesType::RIGHT_OF_WAY)
+      return true;
+  return false;
+}
+
+bool Player::Play(const Game *game) {
+  size_t cardIndex = Utils::AskInt("Which card do you want to play? [1-6]: ") - 1;
+  if (cardIndex > 6)
+    return false;
+
+  bool wantToDropCard = Utils::AskYesNo("Do you want to drop this card? (yes/no) [No]: ", false);
+  if (wantToDropCard)
+    return DropCard(cardIndex);
+
+  return PlayCard(cardIndex, game);
+}
+
+bool Player::DropCard(const size_t cardIndex) {
+  return m_deck.RemoveCard(cardIndex);
+}
+
+bool Player::PlayDistanceCard(Distance &card) {
   for (const auto &hazard: m_hazards) {
     if (hazard.getHazardsType() == HazardsType::SPEED_LIMIT && card.GetDistance() > 50)
       return false;
-    else if (hazard.getHazardsType() != HazardsType::None &&hazard.getHazardsType() != HazardsType::SPEED_LIMIT ) // All other hazards block the card
+    else if (hazard.getHazardsType() != HazardsType::None && hazard.getHazardsType() != HazardsType::SPEED_LIMIT)
+      // All other hazards block the card
       return false;
   }
   m_score += card.GetDistance();
@@ -36,13 +62,13 @@ bool Player::PlaySafetyCard(Safeties safety) {
   return false;
 }
 
-bool Player::PlayHazardCard(Hazards hazard, std::shared_ptr<Player>& opponent) {
+bool Player::PlayHazardCard(Hazards hazard, std::shared_ptr<Player> &opponent) {
   return opponent->ReceiveHazard(hazard);
 }
 
 bool Player::ReceiveHazard(Hazards hazard) {
   //TODO
-  for(const auto& safeties: m_safeties) {
+  for (const auto &safeties: m_safeties) {
     if (safeties.CanCounterHazards(hazard))
       return false;
   }
@@ -60,6 +86,7 @@ bool Player::PlayRemedyCard(Remedies remedies) {
   for (auto &hazard: m_hazards) {
     if (remedies.canCounterHazards(hazard)) {
       hazard = Hazards();
+      ShouldPlayGoCard = true && !HaveRightOfWay();
       return true;
     }
   }
@@ -75,6 +102,19 @@ bool Player::PlayCard(const size_t cardIndex, const Game *game) {
   std::shared_ptr<Card> playedCard = m_deck.GetCard(cardIndex);
 
   if (!playedCard) return false; // Vérifier que la carte existe
+
+  if (ShouldPlayGoCard) {
+    if (const auto remedyCard = std::dynamic_pointer_cast<Remedies>(playedCard)) {
+      if (remedyCard->getRemediesType() == RemediesType::GO) {
+        ShouldPlayGoCard = false;
+        return m_deck.RemoveCard(cardIndex);
+      }
+    } else {
+      std::cout << Utils::colorText("You need to play a GO Card to begin or after countering hazard",
+                                    Utils::Color::GREEN) << std::endl;
+      return false;
+    }
+  }
 
   switch (playedCard->getType()) {
     case CardType::DISTANCE: {
@@ -108,13 +148,13 @@ bool Player::PlayCard(const size_t cardIndex, const Game *game) {
 
 void Player::DisplayDeck(std::ostream &os, const size_t row) const {
   if (row < 5) {
-    DisplayHazardsNSafeties(os, row);
+    DisplayHazardsAndSafeties(os, row);
   } else {
     m_deck.DisplayCards(os, row - 5);
   }
 }
 
-void Player::DisplayHazardsNSafeties(std::ostream &os, const size_t row) const {
+void Player::DisplayHazardsAndSafeties(std::ostream &os, const size_t row) const {
   for (const auto &card: m_hazards)
     os << Utils::colorText(card.getLine(row), Utils::Color::RED);
   for (const auto &card: m_safeties)

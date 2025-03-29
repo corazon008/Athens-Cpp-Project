@@ -18,6 +18,7 @@ private:
     size_t m_id;
     std::array<Hazards, 2> m_hazards;
     std::array<Safeties, 4> m_safeties;
+    bool ShouldPlayGoCard = true;
 
     bool PlayDistanceCard(Distance& distance);
 
@@ -26,6 +27,12 @@ private:
     bool PlayHazardCard(Hazards hazard, std::shared_ptr<Player>& opponent);
 
     bool PlayRemedyCard(Remedies remedies);
+
+    bool HaveRightOfWay() const;
+
+    bool DropCard(const size_t cardIndex);
+
+    bool PlayCard(const size_t cardIndex, const Game* game);
 
 public:
     Player(){};
@@ -38,15 +45,11 @@ public:
 
     bool DrawCard(const std::shared_ptr<Card> card);
 
-    std::shared_ptr<Card> DropCard(const size_t cardIndex);
-
     void DisplayDeck(std::ostream &os, size_t row) const;
 
-    void DisplayHazardsNSafeties(std::ostream &os, size_t row) const;
+    void DisplayHazardsAndSafeties(std::ostream &os, size_t row) const;
 
-    bool PlayCard(const size_t cardIndex, Player &opponent);
-
-    bool PlayCard(const size_t cardIndex, const Game* game);
+    bool Play(const Game* game);
 
     bool ReceiveHazard(Hazards hazard);
 

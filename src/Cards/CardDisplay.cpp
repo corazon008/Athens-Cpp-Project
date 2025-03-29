@@ -49,27 +49,33 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const std::string log
     display.push_back(top);
 
     std::ostringstream oss;
-
-    oss << "│   " << logo << "  │";
+    oss << "│  " << logo << "   │";
 
     display.push_back(oss.str());
     display.push_back(empty);
 
-    std::ostringstream oss2;
-    int nbSpaces = floor((maxCharLength - letter.length()) / 2.0f);
-    switch (nbSpaces % 2) {
-        case 0: {
-            size_t middle = letter.length() / 2;
-            letter.insert(middle, " ");
-            oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
-            display.push_back(oss2.str());
-            break;
+    if (letter.size() < maxCharLength) {
+        std::ostringstream oss2;
+        int nbSpaces = floor((maxCharLength - letter.length()) / 2.0f);
+        switch (nbSpaces % 2) {
+            case 0: {
+                size_t middle = letter.length() / 2;
+                letter.insert(middle, " ");
+                oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
+                display.push_back(oss2.str());
+                break;
+            }
+            case 1: {
+                oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
+                display.push_back(oss2.str());
+                break;
+            }
         }
-        case 1: {
-            oss2 << "│" << std::string(nbSpaces, ' ') << letter << std::string(nbSpaces, ' ') << "│";
-            display.push_back(oss2.str());
-            break;
-        }
+    }
+    else {
+        std::ostringstream oss3;
+        oss3 << "│" << letter << "│";
+        display.push_back(oss3.str());
     }
 
     display.push_back(bottom);
