@@ -37,6 +37,10 @@ bool Player::DropCard(const size_t cardIndex) {
 }
 
 bool Player::PlayDistanceCard(Distance &card) {
+  if (ShouldPlayGoCard) {
+    std::cout << Utils::colorText("You need to play a GO Card to begin or after countering hazard", Utils::Color::GREEN) << std::endl;
+    return false;
+  }
   for (const auto &hazard: m_hazards) {
     if (hazard.GetHazardsType() == HazardsType::SPEED_LIMIT && card.GetDistance() > 50)
       return false;
@@ -49,6 +53,17 @@ bool Player::PlayDistanceCard(Distance &card) {
 }
 
 bool Player::PlaySafetyCard(const Safeties &safety) {
+  if (ShouldPlayGoCard) {
+    if (safety.GetSafetiesType() == SafetiesType::RIGHT_OF_WAY) {
+      ShouldPlayGoCard = false;
+      return true;
+    }
+  } else {
+    std::cout << Utils::colorText("You need to play a GO Card to begin or after countering hazard",
+                                  Utils::Color::GREEN) << std::endl;
+    return false;
+  }
+
   for (size_t i = 0; i < m_hazards.size(); i++)
     if (safety.CanCounterHazards(m_hazards[i]))
       m_hazards[i] = Hazards();
@@ -63,11 +78,13 @@ bool Player::PlaySafetyCard(const Safeties &safety) {
 }
 
 bool Player::PlayHazardCard(const Hazards &hazard, const std::shared_ptr<Player> &opponent) {
-  return opponent->ReceiveHazard(hazard);
+  if (!opponent->ShouldPlayGoCard && opponent->HasStarted)
+    return opponent->ReceiveHazard(hazard);
+  std::cout << Utils::colorText("Opponent can't receive hazard", Utils::Color::GREEN) << std::endl;
+  return false;
 }
 
 bool Player::ReceiveHazard(const Hazards &hazard) {
-  //TODO
   for (const auto &safeties: m_safeties) {
     if (safeties.CanCounterHazards(hazard))
       return false;
@@ -82,6 +99,18 @@ bool Player::ReceiveHazard(const Hazards &hazard) {
 }
 
 bool Player::PlayRemedyCard(const Remedies &remedies) {
+  if (ShouldPlayGoCard) {
+    if (remedies.GetRemediesType() == RemediesType::GO) {
+      ShouldPlayGoCard = false;
+      HasStarted = true;
+      return true;
+    } else {
+      std::cout << Utils::colorText("You need to play a GO Card to begin or after countering hazard",
+                                    Utils::Color::GREEN) << std::endl;
+      return false;
+    }
+  }
+
   for (auto &hazard: m_hazards) {
     if (remedies.canCounterHazards(hazard)) {
       hazard = Hazards();
@@ -101,19 +130,6 @@ bool Player::PlayCard(const size_t cardIndex, const Game *game) {
   std::shared_ptr<Card> playedCard = m_deck.GetCard(cardIndex);
 
   if (!playedCard) return false;
-
-  if (ShouldPlayGoCard) {
-    if (const auto remedyCard = std::dynamic_pointer_cast<Remedies>(playedCard)) {
-      if (remedyCard->GetRemediesType() == RemediesType::GO) {
-        ShouldPlayGoCard = false;
-        return m_deck.RemoveCard(cardIndex);
-      }
-    } else {
-      std::cout << Utils::colorText("You need to play a GO Card to begin or after countering hazard",
-                                    Utils::Color::GREEN) << std::endl;
-      return false;
-    }
-  }
 
   switch (playedCard->GetType()) {
     case CardType::DISTANCE: {

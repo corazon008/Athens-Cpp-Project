@@ -18,6 +18,7 @@ private:
     std::array<Hazards, 2> m_hazards;
     std::array<Safeties, 4> m_safeties;
     bool ShouldPlayGoCard = true;
+    bool HasStarted = false;
 
     bool PlayDistanceCard(Distance &distance);
 
