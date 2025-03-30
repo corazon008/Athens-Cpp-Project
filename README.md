@@ -37,3 +37,6 @@ Preview of the game interface:
 ![Preview 1](preview1.png)
 
 ![Preview 2](preview2.png)
+
+## Credit
+- [Mille Bornes](https://en.wikipedia.org/wiki/Mille_Bornes) - Wikipedia
