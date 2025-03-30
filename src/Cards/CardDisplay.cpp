@@ -50,7 +50,7 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const std::string &lo
     display.push_back(top);
 
     std::ostringstream oss;
-    oss << "│  " << logo << "   │";
+    oss << "│" << logo << "│";
 
     display.push_back(oss.str());
     display.push_back(empty);
@@ -58,7 +58,7 @@ std::vector<std::string> CardDisplay::constructCardDisplay(const std::string &lo
     if (letter.size() < maxCharLength) {
         std::ostringstream oss2;
         int nbSpaces = floor((maxCharLength - letter.length()) / 2.0f);
-        switch (nbSpaces % 2) {
+        switch (letter.length() % 2) {
             case 0: {
                 size_t middle = letter.length() / 2;
                 letter.insert(middle, " ");

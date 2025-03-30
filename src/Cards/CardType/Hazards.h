@@ -15,11 +15,11 @@ enum class HazardsType {
 };
 
 inline std::unordered_map<HazardsType, std::string> hazardSymbols = {
-    {HazardsType::ACCIDENT, "⚠️"},
-    {HazardsType::OUT_OF_GAS, "⛽"},
-    {HazardsType::FLAT_TIRE, "🛞"},
-    {HazardsType::STOP, "🛑"},
-    {HazardsType::SPEED_LIMIT, "🚧"}
+    {HazardsType::ACCIDENT, "   ⚠️  "},
+    {HazardsType::OUT_OF_GAS, "   ⛽   "},
+    {HazardsType::FLAT_TIRE, "   🛞  "},
+    {HazardsType::STOP, "   🛑  "},
+    {HazardsType::SPEED_LIMIT, "   🚧  "}
 };
 
 inline std::unordered_map<HazardsType, std::string> hazardSymbolsLetter = {

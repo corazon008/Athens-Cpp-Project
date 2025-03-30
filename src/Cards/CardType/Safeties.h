@@ -13,17 +13,17 @@ enum class SafetiesType {
 };
 
 inline std::unordered_map<SafetiesType, std::string> safetySymbols = {
-    {SafetiesType::DRIVING_ACE, "🏆"},
-    {SafetiesType::EXTRA_TANK, "⛽"},
-    {SafetiesType::PUNCTURE_PROOF, "🛞"},
-    {SafetiesType::RIGHT_OF_WAY, "🚦"}
+    {SafetiesType::DRIVING_ACE, "   🏆  "},
+    {SafetiesType::EXTRA_TANK, "   ⛽   "},
+    {SafetiesType::PUNCTURE_PROOF, "   🛞  "},
+    {SafetiesType::RIGHT_OF_WAY, " 🚒 🚦 "}
 };
 
 inline std::unordered_map<SafetiesType, std::string> safetySymbolsLetter = {
     {SafetiesType::DRIVING_ACE, "[ACE]"},
     {SafetiesType::EXTRA_TANK, "[TANK]"},
     {SafetiesType::PUNCTURE_PROOF, "[PROOF]"},
-    {SafetiesType::RIGHT_OF_WAY, "[→]"}
+    {SafetiesType::RIGHT_OF_WAY, "[->]"}
 };
 
 

@@ -2,7 +2,10 @@
 #include <cassert>
 #include "CardDisplayTest.cpp"
 #include "../src/Utils/Utils.h"
-
+#include "../src/Cards/CardType/Hazards.h"
+#include "../src/Cards/CardType/Safeties.h"
+#include "../src/Cards/CardType/Distance.h"
+#include "../src/Cards/CardType/Remedies.h"
 using namespace std;
 int main() {
 
@@ -25,6 +28,17 @@ int main() {
     CardDisplayTest::constructCardDisplay();
 
     displayCard(Utils::NumberToStringList(1234567890));
+    for (const auto type : {HazardsType::ACCIDENT, HazardsType::OUT_OF_GAS,HazardsType::FLAT_TIRE, HazardsType::STOP, HazardsType::SPEED_LIMIT}) {
+        displayCard(CardDisplay::constructCardDisplay(hazardSymbols[type], hazardSymbolsLetter[type]));
+    }
+
+    for (const auto type : {SafetiesType::DRIVING_ACE, SafetiesType::EXTRA_TANK, SafetiesType::PUNCTURE_PROOF, SafetiesType::RIGHT_OF_WAY}) {
+        displayCard(CardDisplay::constructCardDisplay(safetySymbols[type], safetySymbolsLetter[type]));
+    }
+
+    for (const auto type : {RemediesType::REPAIRS, RemediesType::GASOLINE, RemediesType::SPARE_TIRE, RemediesType::GO, RemediesType::END_LIMIT}) {
+        displayCard(CardDisplay::constructCardDisplay(remedySymbols[type], remedySymbolsLetter[type]));
+    }
 
     return 0;
 }

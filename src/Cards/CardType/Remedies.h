@@ -13,11 +13,11 @@ enum class RemediesType {
 };
 
 inline std::unordered_map<RemediesType, std::string> remedySymbols = {
-    {RemediesType::REPAIRS, "🔧"},
-    {RemediesType::GASOLINE, "⛽"},
-    {RemediesType::SPARE_TIRE, "🛞"},
-    {RemediesType::GO, "🏁"},
-    {RemediesType::END_LIMIT, "🚀"}
+    {RemediesType::REPAIRS, "   🔧  "},
+    {RemediesType::GASOLINE, "   ⛽   "},
+    {RemediesType::SPARE_TIRE, "   🛞  "},
+    {RemediesType::GO, "   🏁  "},
+    {RemediesType::END_LIMIT, "   🚀  "}
 };
 
 inline std::unordered_map<RemediesType, std::string> remedySymbolsLetter = {

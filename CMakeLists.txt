@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_compile_options(-Wall -pedantic -Wno-long-long -O0)
 
-# Définition des fichiers sources communs
 set(SOURCES
         src/Game.cpp
         src/Utils/Utils.cpp
