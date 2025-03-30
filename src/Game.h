@@ -6,7 +6,7 @@ class Player;
 
 class Game {
 private:
-  const size_t scoreGoal = 500;
+  const size_t scoreGoal = 1000;
   std::vector<std::shared_ptr<Player> > m_players;
   size_t m_currentPlayer = 0;
   size_t m_nbPlayers = 0;

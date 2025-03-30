@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Game.h"
+#include "Utils/Utils.h"
 
 void displayCard(std::vector<std::string> toDisplay) {
     for (const auto &i: toDisplay) {
@@ -13,7 +14,9 @@ void displayCard(std::vector<std::string> toDisplay) {
 
 int main() {
     Game game = Game();
-    game.SetPlayersCount(2);
+    while (!game.SetPlayersCount(Utils::AskInt("With how many players do you want to play? (2-3) "))) {
+        std::cout << "Invalid number of players" << std::endl;
+    }
     game.GenerateCards();
 
     std::ostream &os = std::cout;
