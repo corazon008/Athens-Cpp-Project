@@ -30,6 +30,7 @@ inline std::unordered_map<HazardsType, std::string> hazardSymbolsLetter = {
     {HazardsType::SPEED_LIMIT, "[SLOW]"}
 };
 
+// Hazards class represents a hazards card in the game
 class Hazards : public Card {
 private:
     HazardsType m_hazardsType;

@@ -27,6 +27,7 @@ inline std::unordered_map<SafetiesType, std::string> safetySymbolsLetter = {
 };
 
 
+// Safeties class represents a safety cards in the game
 class Safeties : public Card {
 private:
     SafetiesType m_SafetiesType;

@@ -10,6 +10,7 @@ enum class CardType {
   SAFETIES
 };
 
+// Card base class
 class Card {
 protected:
   std::vector<std::string> displayValue = {
@@ -25,7 +26,7 @@ public:
 
   virtual ~Card() = default;
 
-  // Return the value of the n-th line in order to print a whole deck easily
+  // Return the value of the n-th line of a card to print a whole deck easier
   virtual std::string GetLine(size_t n) const;
 
   virtual CardType GetType() const = 0;

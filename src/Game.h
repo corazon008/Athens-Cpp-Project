@@ -13,14 +13,17 @@ private:
   size_t MaxPlayers = 4;
   std::vector<std::shared_ptr<Card> > m_drawPile;
 
-  void ShuffleDeck();
+  void ShuffleCards();
 
+  // Print the other players' decks
   void BoardRightPanel(std::ostream &os, size_t row) const;
 
+  // Clear the console
   void Clear(std::ostream &os) const;
 
   void DrawCard();
 
+  // Print a player deck
   void BoardRightPanelPlayer(std::ostream &os, const Player &player, size_t row) const;
 
   size_t AskCardToPlay() const;
@@ -32,12 +35,14 @@ public:
 
   bool SetPlayersCount(size_t nbPlayers);
 
+  //Generate Distance Cards
   bool GenerateCards();
 
   bool HaveAWinner() const;
 
   bool PlayCard();
 
+  // Ask the player to choose an opponent to target with his hazard card
   bool AskOpponent(std::shared_ptr<Player> &opponent) const;
 
   void NextPlayer();

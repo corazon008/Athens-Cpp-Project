@@ -44,8 +44,10 @@ public:
 
     size_t GetId() const;
 
+    // Add a card to the player's deck
     bool DrawCard(const std::shared_ptr<Card> &card);
 
+    // Print player's deck to the console
     void DisplayDeck(std::ostream &os, size_t row) const;
 
     void DisplayHazardsAndSafeties(std::ostream &os, size_t row) const;

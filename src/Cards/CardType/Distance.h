@@ -3,6 +3,7 @@
 #include "../Card.h"
 #include "../CardDisplay.h"
 
+// Distance class represents a distance card in the game
 class Distance : public Card {
 private:
     int m_distance;

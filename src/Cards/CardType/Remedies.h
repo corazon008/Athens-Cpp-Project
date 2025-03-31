@@ -28,6 +28,7 @@ inline std::unordered_map<RemediesType, std::string> remedySymbolsLetter = {
     {RemediesType::END_LIMIT, "[FAST]"}
 };
 
+// Remedies class represents a remedies card in the game
 class Remedies : public Card {
 private:
     RemediesType m_remediesType;

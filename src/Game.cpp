@@ -17,7 +17,6 @@ bool Game::SetPlayersCount(size_t nbPlayers) {
 }
 
 bool Game::GenerateCards() {
-    //Generate Distance Cards
     for (int i = 0; i < 10; i++) {
         m_drawPile.push_back(std::make_shared<Distance>(Distance(25)));
         m_drawPile.push_back(std::make_shared<Distance>(Distance(50)));
@@ -61,7 +60,7 @@ bool Game::GenerateCards() {
     m_drawPile.push_back(std::make_shared<Safeties>(Safeties(SafetiesType::RIGHT_OF_WAY)));
 
     //Shuffle the deck
-    ShuffleDeck();
+    ShuffleCards();
 
     int nbCardsPerPlayer = 6;
     for (size_t i = 0; i < m_nbPlayers; i++) {
@@ -74,7 +73,7 @@ bool Game::GenerateCards() {
     return true;
 }
 
-void Game::ShuffleDeck() {
+void Game::ShuffleCards() {
     std::random_device rd;
     std::mt19937 g(rd());
     std::shuffle(m_drawPile.begin(), m_drawPile.end(), g);
