@@ -29,15 +29,15 @@ int main() {
 
     displayCard(Utils::NumberToStringList(1234567890));
     for (const auto type : {HazardsType::ACCIDENT, HazardsType::OUT_OF_GAS,HazardsType::FLAT_TIRE, HazardsType::STOP, HazardsType::SPEED_LIMIT}) {
-        displayCard(CardDisplay::constructCardDisplay(hazardSymbols[type], hazardSymbolsLetter[type]));
+        displayCard(CardDisplay::constructCardDisplay(hazardSymbols[type], hazardSymbolsLetter[type]), Utils::Color::RED);
     }
 
     for (const auto type : {SafetiesType::DRIVING_ACE, SafetiesType::EXTRA_TANK, SafetiesType::PUNCTURE_PROOF, SafetiesType::RIGHT_OF_WAY}) {
-        displayCard(CardDisplay::constructCardDisplay(safetySymbols[type], safetySymbolsLetter[type]));
+        displayCard(CardDisplay::constructCardDisplay(safetySymbols[type], safetySymbolsLetter[type]), Utils::Color::BLUE);
     }
 
     for (const auto type : {RemediesType::REPAIRS, RemediesType::GASOLINE, RemediesType::SPARE_TIRE, RemediesType::GO, RemediesType::END_LIMIT}) {
-        displayCard(CardDisplay::constructCardDisplay(remedySymbols[type], remedySymbolsLetter[type]));
+        displayCard(CardDisplay::constructCardDisplay(remedySymbols[type], remedySymbolsLetter[type]), Utils::Color::GREEN);
     }
 
     return 0;

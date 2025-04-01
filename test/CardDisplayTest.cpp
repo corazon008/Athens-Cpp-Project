@@ -3,10 +3,11 @@
 #include <vector>
 
 #include "../src/Cards/CardDisplay.h"
+#include "../src/Utils/Utils.h"
 
-void displayCard(std::vector<std::string> toDisplay) {
+void displayCard(std::vector<std::string> toDisplay, Utils::Color color=Utils::Color::WHITE) {
     for (const auto & i : toDisplay) {
-        std::cout << i << std::endl;
+        std::cout << Utils::colorText(i, color) << std::endl;
     }
 }
 
