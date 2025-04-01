@@ -161,6 +161,10 @@ bool Player::PlayCard(const size_t cardIndex, const Game *game) {
   return false;
 }
 
+bool Player::CanPlay() const {
+  return m_deck.GetCard(0) != nullptr;
+}
+
 void Player::DisplayDeck(std::ostream &os, const size_t row) const {
   if (row < 5) {
     DisplayHazardsAndSafeties(os, row);

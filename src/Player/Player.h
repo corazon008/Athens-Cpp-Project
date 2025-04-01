@@ -50,9 +50,12 @@ public:
     // Print player's deck to the console
     void DisplayDeck(std::ostream &os, size_t row) const;
 
+    // Print current hazards and safeties apply to the player to the console
     void DisplayHazardsAndSafeties(std::ostream &os, size_t row) const;
 
     bool Play(const Game *game);
+
+    bool CanPlay() const;
 
     bool ReceiveHazard(const Hazards &hazard);
 };

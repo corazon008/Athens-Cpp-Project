@@ -6,6 +6,9 @@ bool Deck::AddCard(const std::shared_ptr<Card> &card) {
 }
 
 std::shared_ptr<Card> Deck::GetCard(const size_t cardIndex) const {
+    if (cardIndex >= m_deck.size()) {
+        return nullptr;
+    }
     std::shared_ptr<Card> card = m_deck[cardIndex];
     return card;
 }

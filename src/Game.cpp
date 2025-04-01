@@ -40,6 +40,7 @@ bool Game::GenerateCards() {
         m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::SPEED_LIMIT)));
     }
     m_drawPile.push_back(std::make_shared<Hazards>(Hazards(HazardsType::STOP))); // 5 STOP cards
+
     //Generate Remedies Cards
     for (int i = 0; i < 6; i++) {
         m_drawPile.push_back(std::make_shared<Remedies>(Remedies(RemediesType::REPAIRS)));
@@ -85,6 +86,24 @@ bool Game::HaveAWinner() const {
             std::cout << "Winner is : Player " << player->GetId() << std::endl;
             return true;
         }
+    }
+
+    bool allPlayersCantPlay = true;
+    for (const auto &player: m_players)
+            allPlayersCantPlay = allPlayersCantPlay && !player->CanPlay();
+
+    if (allPlayersCantPlay) {
+        std::cout << std::endl << "All players have played their cards" << std::endl;
+        size_t maxScore = 0;
+        size_t winnerIndex = 0;
+        for (const auto &player: m_players) {
+            if (player->GetScore() > maxScore) {
+                maxScore = player->GetScore();
+                winnerIndex = player->GetId();
+            }
+        }
+        std::cout << "Winner is : Player " << winnerIndex +1 << " with score of " << maxScore << std::endl;
+        return true;
     }
     return false;
 }
