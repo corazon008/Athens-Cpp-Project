@@ -10,7 +10,7 @@ private:
   std::vector<std::shared_ptr<Player> > m_players;
   size_t m_currentPlayer = 0;
   size_t m_nbPlayers = 0;
-  size_t MaxPlayers = 4;
+  size_t MaxPlayers = 3;
   std::vector<std::shared_ptr<Card> > m_drawPile;
 
   void ShuffleCards();
